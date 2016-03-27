@@ -3,7 +3,7 @@
 A very simple filesharing server for uploading and sharing files on a (private) network.
 
 # Screenshots
-![alt text](http://i.imgur.com/obTTZLQ.png "Uploading")
+<img src="http://i.imgur.com/obTTZLQ.png" style="height:200px" />
 ![alt text](http://i.imgur.com/ovYMfyY.png "Browsing folders")
 ![alt text](http://i.imgur.com/1gX7Oeo.png "Downloading files")
 ![alt text](http://i.imgur.com/4YI3B1B.png "Managing folders")
