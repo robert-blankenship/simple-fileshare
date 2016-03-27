@@ -2,12 +2,11 @@
 Description=Simple Fileshare
 
 [Service]
-WorkingDirectory=/home/ec2-user/simple-fileshare/files/
+Type=simple
+WorkingDirectory=/home/simple-fileshare/www/
 
 ExecStartPre=/bin/firewall-cmd --add-port=80/tcp
-
-ExecStart=/usr/bin/python -m SimpleHTTPServer 80
-
+ExecStart=/usr/bin/python -m CGIHTTPServer 80
 ExecStopPost=/bin/firewall-cmd --remove-port=80/tcp
 
 [Install]

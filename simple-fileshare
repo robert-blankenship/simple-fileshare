@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+import subprocess
+
+print "Please select one:"
+print "  1) see logs (less)"
+print "  2) see logs (tail -f)"
+print "  3) start"
+print "  4) stop"
+print "  5) status"
+print "  6) reload service file"
+print "  7) add bucket"
+
+SERVICE_NAME = 'simple-fileshare'
+
+selection = raw_input("")
+
+if selection == "1":
+	subprocess.call(["journalctl", "-e", "-u", SERVICE_NAME])
+elif selection == "2":
+	subprocess.call(["journalctl", "-f", "-e", "-u", SERVICE_NAME])
+elif selection == "3":
+	subprocess.call(["systemctl", "start", SERVICE_NAME])
+elif selection == "4":
+	subprocess.call(["systemctl", "stop", SERVICE_NAME])
+elif selection == "5":
+	subprocess.call(["systemctl", "status", SERVICE_NAME])
+elif selection == "6":
+	subprocess.call(["systemctl", "daemon-reload", SERVICE_NAME])

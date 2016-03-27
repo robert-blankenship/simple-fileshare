@@ -1,0 +1,75 @@
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	</head>
+	<style>
+		.container {
+			padding-top: 20px;
+			padding-right: 15px;
+			padding-left: 15px;
+			margin-right: auto;
+			margin-left: auto;
+		}
+		.upload-form {
+			max-width: 330px;
+			padding: 15px;
+			margin: auto;
+		}
+		button {
+
+		}
+		.upload-form .container {
+			display: block;
+		}
+	</style>	
+<body>
+<script>
+	var API_URL = "/cgi-bin/api.py";
+
+	function $createRadio(name, value) {
+		return $("<label><input type='radio' name='" + name + "' value='" + value + "'/> " + value + "</label></br>");
+	}
+	
+	function folderAction(action) {
+		var folder_name = prompt("Type the name of the folder.");
+		var url = API_URL + '?' + $.param({'folder-action': action, folder: folder_name, bucket: $('[name=bucket]').val()})
+		$.getJSON(url).success(window.location.reload);
+	}
+
+	$.getJSON( API_URL + "?list-buckets=1").success(function(buckets){
+		buckets.forEach(function (bucket) {
+			$createRadio('bucket', bucket).insertAfter($('#bucket-label')[0])
+			// TODO: Obviously going to run into problems here w/ multiple buckets. Oh well.
+			$.get( API_URL + "?list-folders=1&bucket=" + bucket).success(function(folders){
+				folders.forEach(function (folder) {
+					$createRadio('folder', folder).insertAfter($('#folder-label')[0])
+				});
+			});
+		});
+	});
+</script>
+
+<div class="container">
+	<form class="upload-form" method='post' action="/cgi-bin/api.py">
+		<p class="form-signin-heading">To upload, please paste in the link to the resource and click send.</p>
+		<label for="link-input" class="sr-only">Link to new resource</label>
+		<input name="link" type="link" id="link-input" class="form-control" placeholder="http://site.com/the-file.tar.gz" required autofocus="">
+	
+		<!-- FIXME: Janky styles -->
+		<div class='container'>
+			<h5 id='bucket-label'>Bucket</h5>
+		</div>
+
+		<div class='container'>
+			<h5 id='folder-label'>Folder</h5>
+			<a onclick="folderAction('add')">Create new folder.</a><br>
+			<a onclick="folderAction('remove')">Remove a folder.</a>
+		</div>
+
+		<br>
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Send Upload Request</button>
+	</form>
+</div>
+</body>
+</html>
