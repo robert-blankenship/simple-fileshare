@@ -4,13 +4,11 @@ Description=Simple Fileshare
 [Service]
 WorkingDirectory=/home/ec2-user/simple-fileshare/files/
 
-ExecStartPre=/bin/firewall-cmd --zone=internal --add-interface=eth0
-ExecStartPre=/bin/firewall-cmd --zone=internal --add-port=80/tcp
+ExecStartPre=/bin/firewall-cmd --add-port=80/tcp
 
 ExecStart=/usr/bin/python -m SimpleHTTPServer 80
 
-ExecStopPost=/bin/firewall-cmd --zone=internal --remove-port=80/tcp
-ExecStopPost=/bin/firewall-cmd --zone=internal --remove-interface=eth0
+ExecStopPost=/bin/firewall-cmd --remove-port=80/tcp
 
 [Install]
 WantedBy=multi-user.target
